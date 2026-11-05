@@ -1,4 +1,14 @@
-# CICE-JAX
+# CICE-JAX (moved)
+
+> **Development has moved to [TwitchZhu/CICE-JAX](https://github.com/TwitchZhu/CICE-JAX).**
+>
+> The independent repository uses `main` and starts with its own JAX implementation history. This branch is retained as a historical snapshot and migration entry point; future JAX development takes place in the new repository.
+>
+> The Fortran reference and diagnostic extensions remain in this fork's [CICE-Fortran-debug branch](https://github.com/TwitchZhu/CICE/tree/CICE-Fortran-debug).
+
+The project description and results below are archived documentation from before the repository split.
+
+---
 
 A JAX implementation of the CICE sea-ice model, developed to run CICE physics on GPUs while preserving differentiability for gradient-based applications.
 
