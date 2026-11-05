@@ -1,0 +1,6 @@
+/mnt/e/Code/CICE-JAX/cice_setup.py -c cases/gx3_test -g gx3
+ICE_GRID     = gx3 (100x116) blocksize=100x116 max_blocks=-1
+ICE_DECOMP   = roundrobin slenderX2
+ICE_NTASKS   = 1
+ICE_NTHRDS   = 1
+input        = ../../../CICE/input

@@ -1,0 +1,14 @@
+# gx3 two-step time-loop smoke case
+
+This case is copied from `cases/gx3_test/ice_in` for checking whether the
+CICE-JAX time loop can advance. It keeps the gx3 grid and physical options.
+Only `npt=2`, `diagfreq=1`, and `advection='upwind'` differ from the original
+case. Input paths are relative to this case directory and use `CICE/input`
+beside the `CICE-JAX` repository. Outputs stay in this case directory.
+
+Run `run.py` with the Python environment containing the CICE-JAX dependencies.
+It changes into its own case directory and writes `cice.runlog` plus `history/`
+and `restart/` output. No Fortran executable or MPI setup is needed.
+
+This is a smoke test of the B-grid/upwind path. It does not validate numerical
+agreement with the default remap scheme or CNOP gradients.

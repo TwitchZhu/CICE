@@ -1,3 +1,0 @@
-ice_ic = 'internal'
-history_format = 'binary'
-restart_format = 'binary'

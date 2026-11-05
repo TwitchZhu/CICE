@@ -1,2 +1,0 @@
-setenv ICE_DRVOPT     unittest/sumchk
-setenv ICE_TARGET     sumchk

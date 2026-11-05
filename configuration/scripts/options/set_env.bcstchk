@@ -1,2 +1,0 @@
-setenv ICE_DRVOPT     unittest/bcstchk
-setenv ICE_TARGET     bcstchk

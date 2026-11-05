@@ -1,5 +1,0 @@
-ncat = 7
-kcatbound = 3
-nslyr = 3
-ice_ic = 'internal'
-tfrz_option = 'mushy'

@@ -1,5 +1,0 @@
-tr_snow = .true.
-snwredist  = 'bulk'
-snwlvlfac = 0.3
-nslyr = 5
-

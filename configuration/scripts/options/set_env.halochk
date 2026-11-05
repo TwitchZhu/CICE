@@ -1,2 +1,0 @@
-setenv ICE_DRVOPT     unittest/halochk
-setenv ICE_TARGET     halochk

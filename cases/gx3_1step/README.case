@@ -1,0 +1,22 @@
+# gx3 GNU / Intel / JAX 多步诊断
+
+当前入口：run.py；当前配置：ice_in。由用户在原 CUDA 环境运行：
+
+    python cases/gx3_1step/run.py
+
+从相同初值运行五步：dt=3600、ndtd=1、ndte=1、ktherm=2，
+advection=none、ktransport=0、kridge=0。三个大气回填开关均为 False。
+当前诊断覆盖 (68,2)、(67,9)、(52,8) 的全部类别。
+新输出为 restart_multistep_diag/、history_multistep_diag/ 和 cice.multistep_diag.runlog。
+GNU、Intel 安装/重新编译、输入与源码核对、诊断位置及回传清单见 fortran_pond_debug/README.md。
+收齐三端同轮结果后再比较归因；助手不代运行模型、编译或测试。
+
+2026-10-31 按用户要求清理：仅保留源码、运行配置、静态字段清单和运行说明。
+所有本地计算输出、运行/构建日志、比较报告、入口快照、restart 指针和清理归档均已删除。
+此前归档中的源码与配置已恢复，包括旧案例及诊断脚本；没有保留实验数据压缩包。
+比较脚本需要的数据必须由用户重新下载或运行后生成，历史文档中的数据路径不代表文件仍在。
+
+compare_restart.py、compare_step_entry.py、step_entry_manifest.json 用于当前多步比较。
+compare_debug_stages.py、compare_evp_restart.py、diagnose_stability.py 等为旧实验工具，
+使用时需要配套配置与数据；不要用于直接判定本轮五步轨迹，也不要重新开启旧回填实验。
+其他案例仍保留其源码和配置：gx3_test、gx3_compare、gx3_diagnose、gx3_loop_smoke、gx3_remap_2step。

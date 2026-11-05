@@ -1,6 +1,0 @@
-npt_unit       = 'y'
-npt            = 10
-dumpfreq       = 'y'
-dumpfreq_n     = 1
-diagfreq       = 24
-

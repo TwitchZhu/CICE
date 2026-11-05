@@ -1,0 +1,70 @@
+Loading netcdf/4.9.2-icc-oneapi2023.2-mpich-4.1.2-ch4
+  Loading requirement: pnetcdf/1.12.3-icc-oneapi2023.2-mpich-4.1.2-ch4
+    libxml/2.11.0-gcc-11.4.0
+Currently Loaded Modulefiles:
+ 1) intel/oneapi2023.2_noimpi                             
+ 2) mpi/mpich/4.1.2-icc-oneapi2023.2-ch4                  
+ 3) hdf5/1.14.3-icc-oneapi2023.2-mpich-4.1.2-ch4          
+ 4) pnetcdf/1.12.3-icc-oneapi2023.2-mpich-4.1.2-ch4 <aL>  
+ 5) libxml/2.11.0-gcc-11.4.0 <aL>                         
+ 6) netcdf/4.9.2-icc-oneapi2023.2-mpich-4.1.2-ch4         
+
+Key:
+<module-tag>  <aL>=auto-loaded  
+/APP/u22/x86/mpi/mpich-4.1.2-icc-oneapi2023.2-ch4/bin/mpif90
+ifort (IFORT) 2021.10.0 20230609
+Copyright (C) 1985-2023 Intel Corporation.  All rights reserved.
+
+ifort -fPIC -diag-disable=10441 -I/APP/u22/x86/mpi/mpich-4.1.2-icc-oneapi2023.2-ch4/include -I/APP/u22/x86/mpi/mpich-4.1.2-icc-oneapi2023.2-ch4/include -L/APP/u22/x86/mpi/mpich-4.1.2-icc-oneapi2023.2-ch4/lib -lmpifort -Wl,-rpath -Wl,/APP/u22/x86/mpi/mpich-4.1.2-icc-oneapi2023.2-ch4/lib -Wl,--enable-new-dtags -lmpi
+
+This netCDF-Fortran 4.6.1 has been built with the following features: 
+
+  --cc        -> mpicc
+  --cflags    -> -I/APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2/include -I/APP/u22/x86/hdf5/1.14.3-icc-oneapi2023.2/include -I/APP/u22/x86/pnetcdf/1.12.3-icc-oneapi2023.2/include -I/APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2/include
+
+  --fc        -> mpif90
+  --fflags    -> -I/APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2/include -I/APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2/include
+  --flibs     -> -L/APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2/lib -lnetcdff -L/APP/u22/x86/hdf5/1.14.3-icc-oneapi2023.2/lib -L/APP/u22/x86/pnetcdf/1.12.3-icc-oneapi2023.2/lib -L/APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2/lib -lnetcdf -lnetcdf -lm 
+  --has-f90   -> 
+  --has-f03   -> yes
+
+  --has-nc2   -> yes
+  --has-nc4   -> yes
+
+  --prefix    -> /APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2
+  --includedir-> /APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2/include
+  --version   -> netCDF-Fortran 4.6.1
+
+
+This netCDF 4.9.2 has been built with the following features: 
+
+  --cc            -> mpicc
+  --cflags        -> -I/APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2/include -I/APP/u22/x86/hdf5/1.14.3-icc-oneapi2023.2/include -I/APP/u22/x86/pnetcdf/1.12.3-icc-oneapi2023.2/include
+  --libs          -> -L/APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2/lib -lnetcdf
+  --static        -> -lpnetcdf -lhdf5_hl -lhdf5 -lm -lz -lxml2 -lcurl 
+  --has-dap          -> yes
+  --has-dap2         -> yes
+  --has-dap4         -> yes
+  --has-nc2          -> yes
+  --has-nc4          -> yes
+  --has-hdf5         -> yes
+  --has-hdf4         -> no
+  --has-logging      -> no
+  --has-pnetcdf      -> yes
+  --has-szlib        -> no
+  --has-cdf5         -> yes
+  --has-parallel4    -> yes
+  --has-parallel     -> yes
+  --has-nczarr       -> yes
+  --has-zstd         -> no
+  --has-benchmarks   -> no
+  --has-multifilters -> yes
+  --has-stdfilters   -> deflate bz2
+  --has-quantize     -> yes
+
+  --prefix           -> /APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2
+  --includedir       -> /APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2/include
+  --libdir           -> /APP/u22/x86/netcdf/4.9.2-icc-oneapi2023.2/lib
+  --plugindir        -> 
+  --version          -> netCDF 4.9.2
+

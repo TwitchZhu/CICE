@@ -1,2 +1,0 @@
-setenv ICE_DRVOPT     unittest/opticep
-setenv ICE_TARGET     opticep

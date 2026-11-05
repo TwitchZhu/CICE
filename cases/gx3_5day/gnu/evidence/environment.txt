@@ -1,0 +1,63 @@
+Currently Loaded Modulefiles:
+ 1) mpi/mpich/4.1.2-gcc-11.4.0-ch4           
+ 2) hdf5/1.14.3-gcc-11.4.0-mpich-4.1.2-ch4   
+ 3) netcdf/4.9.2-gcc-11.4.0-mpich-4.1.2-ch4  
+/APP/u22/x86/mpi/mpich-4.1.2-gcc-11.4.0-ch4/bin/mpif90
+GNU Fortran (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
+Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+gfortran -fPIC -I/APP/u22/x86/mpi/mpich-4.1.2-gcc-11.4.0-ch4/include -I/APP/u22/x86/mpi/mpich-4.1.2-gcc-11.4.0-ch4/include -L/APP/u22/x86/mpi/mpich-4.1.2-gcc-11.4.0-ch4/lib -lmpifort -Wl,-rpath -Wl,/APP/u22/x86/mpi/mpich-4.1.2-gcc-11.4.0-ch4/lib -Wl,--enable-new-dtags -lmpi
+
+This netCDF-Fortran 4.5.3 has been built with the following features: 
+
+  --cc        -> mpicc
+  --cflags    -> -I/APP/u22/x86/netcdf/4.9.2-gcc-11.4.0/include 
+
+  --fc        -> gfortran
+  --fflags    -> -I/APP/u22/x86/netcdf/4.9.2-gcc-11.4.0/include -I/APP/u22/x86/netcdf/4.9.2-gcc-11.4.0/include
+  --flibs     -> -L/APP/u22/x86/netcdf/4.9.2-gcc-11.4.0/lib -lnetcdff 
+  --has-f90   -> 
+  --has-f03   -> yes
+
+  --has-nc2   -> yes
+  --has-nc4   -> yes
+
+  --prefix    -> /APP/u22/x86/netcdf/4.9.2-gcc-11.4.0
+  --includedir-> /APP/u22/x86/netcdf/4.9.2-gcc-11.4.0/include
+  --version   -> netCDF-Fortran 4.5.3
+
+
+This netCDF 4.9.2 has been built with the following features: 
+
+  --cc            -> mpicc
+  --cflags        -> -I/APP/u22/x86/netcdf/4.9.2-gcc-11.4.0/include 
+  --libs          -> -L/APP/u22/x86/netcdf/4.9.2-gcc-11.4.0/lib -lnetcdf
+  --static        -> -lhdf5_hl -lhdf5 -lm -lz -lbz2 -lxml2 -lcurl 
+  --has-dap          -> yes
+  --has-dap2         -> yes
+  --has-dap4         -> yes
+  --has-nc2          -> yes
+  --has-nc4          -> yes
+  --has-hdf5         -> yes
+  --has-hdf4         -> no
+  --has-logging      -> no
+  --has-pnetcdf      -> no
+  --has-szlib        -> no
+  --has-cdf5         -> yes
+  --has-parallel4    -> yes
+  --has-parallel     -> yes
+  --has-nczarr       -> yes
+  --has-zstd         -> no
+  --has-benchmarks   -> no
+  --has-multifilters -> yes
+  --has-stdfilters   -> deflate bz2
+  --has-quantize     -> yes
+
+  --prefix           -> /APP/u22/x86/netcdf/4.9.2-gcc-11.4.0
+  --includedir       -> /APP/u22/x86/netcdf/4.9.2-gcc-11.4.0/include
+  --libdir           -> /APP/u22/x86/netcdf/4.9.2-gcc-11.4.0/lib
+  --plugindir        -> 
+  --version          -> netCDF 4.9.2
+

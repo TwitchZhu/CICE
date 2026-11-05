@@ -1,0 +1,14 @@
+gx3 remap diagnostic case. Run `python run.py --diagnose T` with the CUDA-enabled Python environment,
+without the PyCharm debugger if possible. This case uses the same input as
+gx3_compare except npt=1 and dumpfreq='1' to check restart writing after one step;
+it writes only inside this case directory. The diagnostic code and configuration
+are retained for future multi-step checks; set npt in this case's ice_in to the
+desired number of steps. Historical intermediate logs and duplicate copies have
+been removed. The most recently saved cice.runlog and jax_compiles.log remain;
+consult each log's configuration when interpreting it.
+
+With `--diagnose T`, cice.runlog records synchronized stage boundaries, process and WSL memory,
+cgroup OOM counters when available, and GPU allocator memory. jax_compiles.log
+records JAX compilation notices. Without `--diagnose`, or with `--diagnose F`, stage snapshots are disabled.
+A SIGKILL (exit 137) cannot be caught by
+Python, so the final log entry may precede the actual kill.

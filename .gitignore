@@ -1,14 +1,23 @@
-# Ignore emacs backup files
-*~
+# Local tools and Python caches
+.idea/
+.cursor/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+.env.*
 
-# Ignore doc/build
-# these are stored in gh-pages orphan branch
-doc/build
-
-# Ignore macOS cache files
-.DS_Store
-
-
-# Ignore testsuite file/directories
-testsuite*
-caselist*
+# Generated model output and comparison artifacts
+cases/**/history/
+cases/**/restart/
+cases/**/profiles/
+cases/**/comparison_logs/
+cases/**/logs/
+cases/**/ice.restart_file
+cases/**/step_entry.*.bin
+cases/**/step_entry.*.txt
+*.log
+cice.runlog*
+cice.bldlog*
+slurm*.out

@@ -1,3 +1,0 @@
-npt_unit        = '1'
-npt             = 3
-dump_last       = .true.
