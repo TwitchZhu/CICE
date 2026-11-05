@@ -138,6 +138,9 @@
 
       subroutine ice_step
 
+      use ice_step_snapshot, only: write_step_entry
+      use ice_calendar, only: istep1
+      use ice_diagnostics, only: debug_model_step
       use ice_boundary, only: ice_HaloUpdate
       use ice_calendar, only: dt, dt_dyn, ndtd, diagfreq, write_restart, istep
       use ice_diagnostics, only: init_mass_diags, runtime_diags, debug_model, debug_ice
@@ -181,6 +184,10 @@
       character(len=*), parameter :: subname = '(ice_step)'
 
       character (len=char_len) :: plabeld
+
+      if (debug_model .and. istep1 == max(1,debug_model_step)) then
+         call write_step_entry(istep1)
+      endif
 
       if (debug_model) then
          plabeld = 'beginning time step'

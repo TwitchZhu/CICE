@@ -339,6 +339,18 @@ endif
 #EOFR
 
 #=======
+else if (${ICE_MACHCOMP} =~ xingyi*) then
+if (${ICE_COMMDIR} =~ serial*) then
+cat >> ${jobfile} << EOFR
+./cice >&! \$ICE_RUNLOG_FILE
+EOFR
+else
+cat >> ${jobfile} << EOFR
+yhrun -n ${ntasks} -c ${nthrds} ./cice >&! \$ICE_RUNLOG_FILE
+EOFR
+endif
+
+#=======
 else if (${ICE_MACHCOMP} =~ conda*) then
 if (${ICE_COMMDIR} =~ serial*) then
 cat >> ${jobfile} << EOFR

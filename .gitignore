@@ -12,3 +12,17 @@ doc/build
 # Ignore testsuite file/directories
 testsuite*
 caselist*
+
+# Local tools, datasets and generated run output
+.idea/
+.cursor/
+__pycache__/
+*.py[cod]
+/input/
+/logs/
+/cice-dirs/runs/
+/cice-dirs/baseline/
+**/logs/
+cice.runlog*
+cice.bldlog*
+slurm*.out

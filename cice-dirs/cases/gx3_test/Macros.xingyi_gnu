@@ -1,0 +1,44 @@
+#==============================================================================
+# Makefile macros for TianheXY-C Xingyi cluster, gnu compiler
+#==============================================================================
+
+CPPDEFS    := -DFORTRANUNDERSCORE ${ICE_CPPDEFS}
+CFLAGS     := -c
+
+FIXEDFLAGS := -ffixed-line-length-132
+FREEFLAGS  := -ffree-form
+FFLAGS     := -fconvert=big-endian -fbacktrace -ffree-line-length-none -fallow-argument-mismatch
+FFLAGS_NOOPT:= -O0
+
+ifeq ($(ICE_BLDDEBUG), true)
+  FFLAGS     += -O0 -g -fcheck=bounds -finit-real=nan -fimplicit-none -ffpe-trap=invalid,zero,overflow
+  CFLAGS     += -O0
+else
+  FFLAGS   += -O2
+  CFLAGS   += -O2
+endif
+
+SCC   := gcc
+SFC   := gfortran
+MPICC := mpicc
+MPIFC := mpif90
+
+ifeq ($(ICE_COMMDIR), mpi)
+  FC := $(MPIFC)
+  CC := $(MPICC)
+else
+  FC := $(SFC)
+  CC := $(SCC)
+endif
+LD:= $(FC)
+
+INCLDIR := $(INCLDIR)
+INCLDIR += -I$(shell nf-config --includedir)
+
+SLIBS   := $(shell nf-config --flibs) $(shell nc-config --libs)
+
+ifeq ($(ICE_THREADED), true)
+   LDFLAGS += -fopenmp
+   CFLAGS += -fopenmp
+   FFLAGS += -fopenmp
+endif

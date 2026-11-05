@@ -5,6 +5,9 @@
 
 <!--- [![codecov](https://codecov.io/gh/apcraig/Test_CICE_Icepack/branch/master/graph/badge.svg)](https://codecov.io/gh/apcraig/Test_CICE_Icepack) --->
 
+## CICE-Fortran-debug is based on CICE6.6.3
+
+This branch preserves local Fortran diagnostics and comparison configurations on top of CICE6.6.3 (c734c12bfb19632cd700cb06b22c3ea62b4adeae). Icepack is vendored as source, based on daa41638c6cef298583f35ee4dec5ab1bb077aea, with local diagnostic changes. The separate CICE-JAX branch contains the JAX implementation.
 ## The CICE Consortium sea-ice model
 CICE is a computationally efficient model for simulating the growth, melting, and movement of polar sea ice. Designed as one component of coupled atmosphere-ocean-land-ice global coupled models, today’s CICE model is the outcome of more than two decades of community collaboration in building a sea ice model suitable for multiple uses including process studies, operational forecasting, and Earth system simulation.
 

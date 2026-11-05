@@ -491,6 +491,17 @@ cat >> ${jobfile} << EOFB
 #BSUB -e /u/Robert.Grumbine/${ICE_CASENAME}.err.%J
 EOFB
 
+else if (${ICE_MACHINE} =~ xingyi*) then
+cat >> ${jobfile} << EOFB
+#SBATCH -J ${shortcase}
+#SBATCH -p ${queue}
+#SBATCH -t ${batchtime}
+#SBATCH -N ${nnodes}
+#SBATCH -n ${ntasks}
+#SBATCH -c ${nthrds}
+#SBATCH -o slurm%j.out
+EOFB
+
 else if (${ICE_MACHINE} =~ high_Sierra*) then
 cat >> ${jobfile} << EOFB
 # nothing to do

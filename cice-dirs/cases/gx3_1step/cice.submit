@@ -1,0 +1,5 @@
+#!/bin/csh -f 
+
+yhbatch ./cice.run
+echo "`date` ${0}: gx3_1step job submitted"  >> /XYFS01/HDD_POOL/iocas_mmu/iocas_mmuxy_7/zxy/cice-dirs/cases/gx3_1step/README.case
+

@@ -1,0 +1,9 @@
+Wed Oct 28 20:55:39 CST 2026 ./cice.setup -c /XYFS01/HDD_POOL/iocas_mmu/iocas_mmuxy_7/zxy/cice-dirs/cases/gx3_1step -m xingyi -e gnu -g gx3 -p 4x1
+Wed Oct 28 20:55:41 CST 2026 ./cice.setup adding namelist modes set_nml.gx3
+Wed Oct 28 20:57:41 CST 2026 ./cice.build:gx3_1step build completed cice.bldlog.261028-205630
+Wed Oct 28 21:00:54 CST 2026 ./cice.submit: gx3_1step job submitted
+Wed Oct 28 21:01:07 CST 2026 /tmp/slurmd/job8809546/slurm_script: CICE output file is /XYFS01/HDD_POOL/iocas_mmu/iocas_mmuxy_7/zxy/cice-dirs/cases/gx3_1step/logs/cice.runlog.261028-210102
+Wed Oct 28 21:01:07 CST 2026 /tmp/slurmd/job8809546/slurm_script: CICE run completed successfully
+Wed Oct 28 21:01:37 CST 2026 ./cice.submit: gx3_1step job submitted
+Wed Oct 28 21:01:45 CST 2026 /tmp/slurmd/job8809564/slurm_script: CICE output file is /XYFS01/HDD_POOL/iocas_mmu/iocas_mmuxy_7/zxy/cice-dirs/cases/gx3_1step/logs/cice.runlog.261028-210140
+Wed Oct 28 21:01:45 CST 2026 /tmp/slurmd/job8809564/slurm_script: CICE run completed successfully

@@ -230,7 +230,8 @@
           fswsfcn, fswintn, Sswabsn, Iswabsn, meltsliqn, meltsliq, &
           fswthrun, fswthrun_vdr, fswthrun_vdf, fswthrun_idr, fswthrun_idf, &
           fswthrun_uvrdr, fswthrun_uvrdf, fswthrun_pardr, fswthrun_pardf
-      use ice_calendar, only: yday
+      use ice_calendar, only: yday, istep1
+      use ice_diagnostics, only: debug_model, debug_model_step
       use ice_domain_size, only: ncat, nilyr, nslyr, n_iso, n_aero, nfsd
       use ice_flux, only: frzmlt, sst, Tf, strocnxT_iavg, strocnyT_iavg, rsiden, fbot, Tbot, Tsnice, &
           meltsn, melttn, meltbn, congeln, snoicen, uatmT, vatmT, wlat, &
@@ -277,6 +278,47 @@
          i, j           , & ! horizontal indices
          n              , & ! thickness category index
          k, kk              ! indices for aerosols
+
+      integer (kind=int_kind) :: pond_i, pond_j, pond_cat, pond_record
+      ! PICARD_ENTRY_DEBUG_BEGIN
+      integer :: entry_group, entry_first, entry_count, entry_lower, entry_width, entry_k, entry_row
+      character(len=12) :: entry_phase, entry_kind
+      character(len=32) :: entry_fields(18)
+      ! PICARD_ENTRY_DEBUG_END
+      real (kind=dbl_kind) :: atmo_diagnostics(29,0:6,ncat), picard_diagnostics(18,8+4*nilyr+3*nslyr,ncat)
+      logical (kind=log_kind) :: debug_model_ponds
+      real (kind=dbl_kind) :: pond_diagnostics(51,ncat)
+      character(len=32), parameter :: pond_fields(28) = [character(len=32) :: &
+         'aicen', 'alvl', 'apnd_initial', 'hpnd_initial', &
+         'apond_after_thermo', 'apnd_before_ponds', 'hpnd_before_ponds', &
+         'ipnd_before_ponds', 'vicen', 'vsnon', 'dhs', 'Tsf', &
+         'meltt', 'melts', 'meltsliq', 'frain', 'rfrac', 'Tair', &
+         'fsurfn', 'fcondtopn', 'surface_flux_residual', 'surface_energy_residual', &
+         'dt', 'dpnd_freebdn', 'dpnd_dlidn', &
+         'apnd_after_ponds', 'hpnd_after_ponds', 'ipnd_after_ponds']
+      character(len=32), parameter :: atmo_fields(29) = [character(len=32) :: &
+         'Tsf', 'potT', 'wind', 'zlvl', &
+         'zlvs', 'Qa', 'rhoa', 'vmag', &
+         'rdn', 'TsfK', 'delt', 'ssq', &
+         'thva', 'delq', 'alzm', 'alzs', &
+         'cp', 'ustar', 'tstar', 'qstar', &
+         'holm', 'hols', 'psimh', 'psixh', &
+         'rd', 'rh', 're', 'shcoef', &
+         'lhcoef']
+      character(len=32), parameter :: picard_fields(18) = [character(len=32) :: &
+         'nit', 'lsnow', 'lcold', 'Tsf', &
+         'zTsn_top', 'zTin_top', 'fsurfn', 'dfsurfn_dTsf', &
+         'fcondtop', 'fcondbot', 'fadvheat', 'converged', &
+         'shcoef', 'lhcoef', 'zqin_top', 'zqsn_top', &
+         'zSin_top', 'phi_top']
+      character(len=32), parameter :: surface_fields(23) = [character(len=32) :: &
+         'surface_Tsf', 'surface_zTsn_top', 'surface_zTin_top', &
+         'surface_hslyr', 'surface_hilyr', 'surface_ks_top', 'surface_km_top', &
+         'surface_lsnow', 'surface_fswsfc', 'surface_flwdabs', 'surface_flwoutn', &
+         'surface_fsensn', 'surface_flatn', 'surface_fsurfn', 'surface_fcondtopn', &
+         'surface_flux_residual', 'surface_energy_residual', &
+         'surface_potT', 'surface_Qa', 'surface_rhoa', 'surface_shcoef', &
+         'surface_lhcoef', 'surface_converged']
 
       integer (kind=int_kind) :: &
          ntrcr, nt_apnd, nt_hpnd, nt_ipnd, nt_alvl, nt_vlvl, nt_Tsfc, &
@@ -397,6 +439,14 @@
          endif ! tr_aero
 
          if (tmask(i,j,iblk) .or. opmask(i,j,iblk)) then
+
+         ! Match global restart indices, independent of MPI block layout.
+         pond_i = this_block%i_glob(i)
+         pond_j = this_block%j_glob(j)
+         pond_cat = 0
+         if (pond_i == 59 .and. pond_j == 110) pond_cat = 2
+         if (pond_i == 95 .and. pond_j == 104) pond_cat = 1
+         debug_model_ponds = debug_model .and. istep1 >= debug_model_step .and. pond_cat > 0
 
          call icepack_step_therm1(dt=dt,                       &
                       aicen_init   = aicen_init  (i,j,:,iblk), &
@@ -565,7 +615,126 @@
                       dpnd_freebdn = dpnd_freebdn(i,j,:,iblk), &
                       dpnd_initialn=dpnd_initialn(i,j,:,iblk), &
                       dpnd_dlidn   = dpnd_dlidn  (i,j,:,iblk), &
-                      yday=yday, prescribed_ice=prescribed_ice)
+                      yday=yday, prescribed_ice=prescribed_ice, &
+                      debug_model_ponds=debug_model_ponds, &
+                      pond_diagnostics=pond_diagnostics, &
+                      atmo_diagnostics=atmo_diagnostics, &
+                      picard_diagnostics=picard_diagnostics)
+
+         if (debug_model_ponds .and. .not.icepack_warnings_aborted()) then
+            write(nu_diag,'(a,i0,a,i0,a,i0,a,i0,28(a,a,a,es25.17e3))') &
+               '(pond_fortran) step=', istep1, ' i=', pond_i, &
+               ' j=', pond_j, ' cat=', pond_cat, &
+               (' ', trim(pond_fields(k)), '=', pond_diagnostics(k,pond_cat), k=1,28)
+            write(nu_diag,'(a,i0,a,i0,a,i0,a,i0,23(a,a,a,es25.17e3))') &
+               '(surface_fortran) step=', istep1, ' i=', pond_i, &
+               ' j=', pond_j, ' cat=', pond_cat, &
+               (' ', trim(surface_fields(k)), '=', pond_diagnostics(28+k,pond_cat), k=1,23)
+            do pond_record = 0, 6
+               if (pond_record < 6 .and. atmo_diagnostics(9,pond_record,pond_cat) == c0) cycle
+               write(nu_diag,'(a,i0,a,i0,a,i0,a,i0,a,i0,29(a,a,a,es25.17e3))') &
+                  '(atmo_fortran) step=', istep1, ' i=', pond_i, ' j=', pond_j, &
+                  ' cat=', pond_cat, ' record=', pond_record, &
+                  (' ', trim(atmo_fields(k)), '=', atmo_diagnostics(k,pond_record,pond_cat), k=1,29)
+            enddo
+            do pond_record = 1, 3
+               write(nu_diag,'(a,i0,a,i0,a,i0,a,i0,a,i0,18(a,a,a,es25.17e3))') &
+                  '(picard_fortran) step=', istep1, ' i=', pond_i, ' j=', pond_j, &
+                  ' cat=', pond_cat, ' record=', pond_record, &
+                  (' ', trim(picard_fields(k)), '=', picard_diagnostics(k,pond_record,pond_cat), k=1,18)
+            enddo
+            ! PICARD_ENTRY_DEBUG_BEGIN
+            do entry_group = 1, 9
+               entry_phase = 'entry'
+               entry_fields = ''
+               select case (entry_group)
+               case (1)
+                  entry_kind = 'scalar'
+                  entry_first = 4
+                  entry_count = 1
+                  entry_lower = 0
+                  entry_width = 18
+                  entry_fields = [character(len=32) :: &
+                     'lsnow', 'lcold', 'Tsf', 'dt', 'hilyr', 'hslyr', 'Tbot', &
+                     'fswint', 'fswsfc', 'rhoa', 'flw', 'potT', 'Qa', 'shcoef', &
+                     'lhcoef', 'qpond', 'qocn', 'Spond']
+               case (2)
+                  entry_kind = 'scalar'
+                  entry_first = 5
+                  entry_count = 1
+                  entry_lower = 1
+                  entry_width = 3
+                  if (picard_diagnostics(3,5,pond_cat) /= c0) entry_width = 7
+                  entry_fields(1:7) = [character(len=32) :: &
+                     'sss', 'w', 'semi_implicit_Tsfc', 'dfsurfdTs_cpl', &
+                     'dflatdTs_cpl', 'fsurf_cpl', 'flat_cpl']
+               case (3)
+                  entry_kind = 'ice'
+                  entry_first = 6
+                  entry_count = nilyr
+                  entry_lower = 1
+                  entry_width = 7
+                  entry_fields(1:7) = [character(len=32) :: &
+                     'zqin', 'zSin', 'zTin', 'phi', 'km', 'Iswabs', 'dSdt']
+               case (4)
+                  entry_kind = 'snow'
+                  entry_first = 6+nilyr
+                  entry_count = nslyr
+                  entry_lower = 1
+                  entry_width = 4
+                  entry_fields(1:4) = [character(len=32) :: 'zqsn', 'zTsn', 'ks', 'Sswabs']
+               case (5)
+                  entry_kind = 'darcy'
+                  entry_first = 6+nilyr+nslyr
+                  entry_count = nilyr+1
+                  entry_lower = 0
+                  entry_width = 1
+                  entry_fields(1) = 'q'
+               case (6)
+                  entry_phase = 'prepared'
+                  entry_kind = 'ice'
+                  entry_first = 7+2*nilyr+nslyr
+                  entry_count = nilyr
+                  entry_lower = 1
+                  entry_width = 3
+                  entry_fields(1:3) = [character(len=32) :: 'zTin', 'phi', 'Sbr']
+               case (7)
+                  entry_phase = 'prepared'
+                  entry_kind = 'snow'
+                  entry_first = 7+3*nilyr+nslyr
+                  entry_count = nslyr
+                  entry_lower = 1
+                  entry_width = 1
+                  entry_fields(1) = 'zTsn'
+               case (8)
+                  entry_phase = 'prepared'
+                  entry_kind = 'interface'
+                  entry_first = 7+3*nilyr+2*nslyr
+                  entry_count = nilyr+1
+                  if (picard_diagnostics(1,4,pond_cat) /= c0) entry_count = entry_count+nslyr
+                  entry_lower = 1
+                  entry_width = 2
+                  entry_fields(1:2) = [character(len=32) :: 'dxp', 'kcstar']
+               case (9)
+                  entry_phase = 'prepared'
+                  entry_kind = 'scalar'
+                  entry_first = 8+4*nilyr+3*nslyr
+                  entry_count = 1
+                  entry_lower = 0
+                  entry_width = 1
+                  entry_fields(1) = 'einit'
+               end select
+               do entry_k = 0, entry_count-1
+                  entry_row = entry_first+entry_k
+                  write(nu_diag,'(a,i0,a,i0,a,i0,a,i0,5a,i0,18(a,a,a,es25.17e3))') &
+                     '(picard_entry_fortran) step=', istep1, ' i=', pond_i, ' j=', pond_j, &
+                     ' cat=', pond_cat, ' phase=', trim(entry_phase), &
+                     ' kind=', trim(entry_kind), ' k=', entry_lower+entry_k, &
+                     (' ', trim(entry_fields(k)), '=', picard_diagnostics(k,entry_row,pond_cat), k=1,entry_width)
+               enddo
+            enddo
+            ! PICARD_ENTRY_DEBUG_END
+         endif
 
       !-----------------------------------------------------------------
       ! handle per-category i2x fields, no merging
